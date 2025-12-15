@@ -13,16 +13,11 @@
     
     <!-- Pantalla 1: Configuración -->
     <div id="setupScreen" class="screen active container mx-auto max-w-2xl">
-        <div class="flex justify-end mb-4">
-            <button id="installBtn" class="hidden bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm">
-                <i class="fas fa-download mr-2"></i> Instalar App
-            </button>
-        </div>
-        <h1 class="text-4xl font-bold text-center mb-8 text-red-500">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-red-500">
             <i class="fas fa-user-secret"></i> Impostor Local
         </h1>
         
-        <div class="bg-gray-800 rounded-xl p-6 shadow-2xl mb-6">
+        <div class="bg-gray-800 rounded-xl p-4 md:p-6 shadow-2xl mb-6">
             <h2 class="text-2xl font-bold mb-4">👥 Agregar Jugadores</h2>
             <div class="flex mb-4">
                 <input type="text" id="playerName" 
@@ -74,18 +69,18 @@
             <h2 class="text-2xl font-bold mb-4">📚 Categorías</h2>
             
             <!-- Botón para agregar categoría personalizada -->
-            <div class="mb-4 flex space-x-4">
+            <div class="mb-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
                 <button onclick="showAddCategoryModal()" 
-                        class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium">
-                    <i class="fas fa-plus-circle mr-2"></i> Crear Categoría Personalizada
+                        class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium text-sm md:text-base">
+                    <i class="fas fa-plus-circle mr-2"></i> Crear Personalizada
                 </button>
                 <button onclick="showManageCategories()" 
-                        class="flex-1 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium">
-                    <i class="fas fa-edit mr-2"></i> Gestionar Categorías
+                        class="flex-1 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium text-sm md:text-base">
+                    <i class="fas fa-edit mr-2"></i> Gestionar
                 </button>
             </div>
             
-            <div id="categoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+            <div id="categoriesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                 <!-- Categorías generadas por JS -->
             </div>
             
@@ -147,7 +142,7 @@
             
             <div class="mb-8">
                 <h3 class="text-xl font-bold mb-4">👥 Jugadores en juego:</h3>
-                <div id="alivePlayers" class="grid grid-cols-3 gap-3">
+                <div id="alivePlayers" class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <!-- Jugadores vivos -->
                 </div>
             </div>

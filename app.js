@@ -759,6 +759,8 @@ window.addEventListener('appinstalled', () => {
 });
 
 // Solicitar instalación como PWA
+// Código de instalación eliminado por solicitud del usuario
+/*
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
@@ -783,3 +785,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
         });
     }
 });
+*/
