@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 async function loadCategoriesFromFile() {
     try {
-        const response = await fetch('data/categories.json');
+        // Agregamos timestamp para evitar caché
+        const response = await fetch(`data/categories.json?t=${Date.now()}`);
         if (response.ok) {
             const data = await response.json();
             Object.assign(categoriesDB, data);
@@ -717,6 +718,8 @@ function newGame() {
     gameState.isGameActive = false;
     gameState.alivePlayers = [];
     gameState.votedPlayer = null;
+    gameState.currentWord = null; // Resetear palabra
+    gameState.activeCategory = null; // Resetear categoría activa
     
     showScreen('setupScreen');
     updateStartButton();
