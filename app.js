@@ -188,6 +188,9 @@ function startRoleAssignment() {
         // Mezclar de nuevo
         assignImpostors(impostorCount);
     }
+
+    // Seleccionar palabra para la ronda (UNA VEZ para todos)
+    selectRandomWord();
     
     // Iniciar asignación
     gameState.currentPlayerIndex = 0;
@@ -221,9 +224,6 @@ function showNextPlayer() {
 
 function revealRole() {
     const player = gameState.players[gameState.currentPlayerIndex];
-    
-    // Seleccionar palabra aleatoria
-    selectRandomWord();
     
     // Mostrar información
     const roleInfo = document.getElementById('roleInfo');
@@ -488,12 +488,9 @@ function startGame() {
     gameState.alivePlayers = [...gameState.players];
     gameState.isGameActive = true;
     
-    // Nueva palabra para la ronda
-    selectRandomWord();
-    updateGameScreen();
-    
     // Iniciar timer
     startTimer();
+    updateGameScreen();
     showScreen('gameScreen');
 }
 
@@ -622,6 +619,7 @@ function finishVoting() {
     if (gameState.currentRound > gameState.totalRounds) {
         endGame();
     } else {
+        // Nueva ronda: seleccionar nueva palabra
         selectRandomWord();
         updateGameScreen();
         continueTimer();  // <-- Continúa el cronómetro
