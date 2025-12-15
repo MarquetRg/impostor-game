@@ -1,0 +1,35 @@
+{
+  "Películas": [
+    { "word": "TITANIC", "clue": "Navegación" },
+    { "word": "AVATAR", "clue": "Planeta" },
+    { "word": "MATRIX", "clue": "Virtual" }
+  ],
+  "Series": [
+    { "word": "STRANGER THINGS", "clue": "Misterio" },
+    { "word": "BREAKING BAD", "clue": "Química" },
+    { "word": "GAME OF THRONES", "clue": "Poder" }
+  ],
+  "Videojuegos": [
+    { "word": "MINECRAFT", "clue": "Bloques" },
+    { "word": "FORTNITE", "clue": "Batalla" },
+    { "word": "MARIO BROS", "clue": "Saltos" }
+  ],
+  "Animales": [
+    { "word": "ELEFANTE", "clue": "Grande" },
+    { "word": "JIRAFA", "clue": "Altura" },
+    { "word": "PINGÜINO", "clue": "Hielo" }
+  ],
+  "Comida": [
+    { "word": "PIZZA", "clue": "Redonda" },
+    { "word": "SUSHI", "clue": "Crudo" },
+    { "word": "CHOCOLATE", "clue": "Cacao" }
+  ],
+  "Deportes": [
+    { "word": "FÚTBOL", "clue": "Balón" },
+    { "word": "BALONCESTO", "clue": "Canasta" },
+    { "word": "TENIS", "clue": "Raqueta" }
+  ],
+  "custom_Ejemplo": [
+    { "word": "EJEMPLO", "clue": "Pista" }
+  ]
+}

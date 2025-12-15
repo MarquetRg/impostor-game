@@ -1,0 +1,21 @@
+{
+  "name": "Impostor Local",
+  "short_name": "Impostor",
+  "description": "Juego del impostor para jugar con amigos localmente",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f2937",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icono.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

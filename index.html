@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impostor Local</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-4">
+    
+    <!-- Pantalla 1: Configuración -->
+    <div id="setupScreen" class="screen active container mx-auto max-w-2xl">
+        <div class="flex justify-end mb-4">
+            <button id="installBtn" class="hidden bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-download mr-2"></i> Instalar App
+            </button>
+        </div>
+        <h1 class="text-4xl font-bold text-center mb-8 text-red-500">
+            <i class="fas fa-user-secret"></i> Impostor Local
+        </h1>
+        
+        <div class="bg-gray-800 rounded-xl p-6 shadow-2xl mb-6">
+            <h2 class="text-2xl font-bold mb-4">👥 Agregar Jugadores</h2>
+            <div class="flex mb-4">
+                <input type="text" id="playerName" 
+                       class="flex-grow p-3 rounded-l-lg bg-gray-700 text-white"
+                       placeholder="Nombre del jugador"
+                       onkeypress="if(event.key=='Enter') addPlayer()">
+                <button onclick="addPlayer()" 
+                        class="bg-green-600 hover:bg-green-700 px-6 rounded-r-lg">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+            
+            <div id="playersList" class="grid grid-cols-2 gap-3 mb-6">
+                <!-- Jugadores aparecen aquí -->
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <label class="block mb-2">🕵️ Impostores</label>
+                    <select id="impostorCount" class="w-full p-3 rounded bg-gray-700">
+                        <option value="1">1 Impostor</option>
+                        <option value="2">2 Impostores</option>
+                        <option value="3">3 Impostores</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block mb-2">⏱️ Tiempo (minutos)</label>
+                    <select id="gameTime" class="w-full p-3 rounded bg-gray-700">
+                        <option value="5">5 min</option>
+                        <option value="7">7 min</option>
+                        <option value="10">10 min</option>
+                        <option value="15">15 min</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block mb-2">🎯 Rondas</label>
+                    <select id="roundsCount" class="w-full p-3 rounded bg-gray-700">
+                        <option value="3">3 Rondas</option>
+                        <option value="5">5 Rondas</option>
+                        <option value="7">7 Rondas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-800 rounded-xl p-6 shadow-2xl mb-6">
+            <h2 class="text-2xl font-bold mb-4">📚 Categorías</h2>
+            
+            <!-- Botón para agregar categoría personalizada -->
+            <div class="mb-4 flex space-x-4">
+                <button onclick="showAddCategoryModal()" 
+                        class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium">
+                    <i class="fas fa-plus-circle mr-2"></i> Crear Categoría Personalizada
+                </button>
+                <button onclick="showManageCategories()" 
+                        class="flex-1 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-medium">
+                    <i class="fas fa-edit mr-2"></i> Gestionar Categorías
+                </button>
+            </div>
+            
+            <div id="categoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                <!-- Categorías generadas por JS -->
+            </div>
+            
+            <!-- Indicador de categorías seleccionadas -->
+            <div id="selectedCategoriesInfo" class="text-sm text-gray-400"></div>
+        </div>
+        
+        <button onclick="startRoleAssignment()" 
+                id="startBtn"
+                class="w-full py-4 bg-red-600 hover:bg-red-700 rounded-xl text-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled>
+            🚀 Iniciar Partida
+        </button>
+    </div>
+    
+    <!-- Pantalla 2: Asignación de Roles -->
+    <div id="roleScreen" class="screen container mx-auto max-w-2xl text-center">
+        <div id="roleContent" class="role-reveal">
+            <div class="role-inner">
+                <!-- Frente: Nombre del jugador -->
+                <div id="roleFront" class="role-front">
+                    <h2 class="text-3xl font-bold mb-6">Pasa el dispositivo a:</h2>
+                    <div id="currentPlayerName" class="text-5xl font-bold text-yellow-400 mb-8"></div>
+                    <button onclick="revealRole()" 
+                            class="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-xl text-xl font-bold">
+                        <i class="fas fa-eye"></i> Ver Rol
+                    </button>
+                </div>
+                
+                <!-- Reverso: Rol y palabra -->
+                <div id="roleBack" class="role-back">
+                    <div id="roleInfo" class="w-full">
+                        <!-- Aquí va el rol y palabra -->
+                    </div>
+                    <button onclick="nextPlayer()" 
+                            class="mt-8 px-8 py-4 bg-green-600 hover:bg-green-700 rounded-xl text-xl font-bold">
+                        <i class="fas fa-arrow-right"></i> Siguiente Jugador
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla 3: Juego en Curso -->
+    <div id="gameScreen" class="screen container mx-auto max-w-2xl">
+        <div class="bg-gray-800 rounded-xl p-6 shadow-2xl mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold">🎮 Ronda en Curso</h2>
+                <div id="timer" class="text-4xl font-mono font-bold text-red-500">
+                    05:00
+                </div>
+            </div>
+            
+            <div class="text-center mb-8">
+                <div class="text-xl mb-2">Palabra actual:</div>
+                <div id="currentWord" class="text-4xl font-bold text-green-400 mb-4"></div>
+                <div id="roundInfo" class="text-gray-400"></div>
+            </div>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-bold mb-4">👥 Jugadores en juego:</h3>
+                <div id="alivePlayers" class="grid grid-cols-3 gap-3">
+                    <!-- Jugadores vivos -->
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button onclick="startVoting()" 
+                        id="voteBtn"
+                        class="px-8 py-4 bg-purple-600 hover:bg-purple-700 rounded-xl text-xl font-bold">
+                    ✋ Iniciar Votación
+                </button>
+                <div class="text-gray-400 text-sm mt-2">(Todos deben estar de acuerdo)</div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <button onclick="endGame()" 
+                    class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                🏁 Terminar Partida
+            </button>
+        </div>
+    </div>
+    
+    <!-- Pantalla 4: Votación -->
+    <div id="votingScreen" class="screen container mx-auto max-w-2xl">
+        <div class="bg-gray-800 rounded-xl p-6 shadow-2xl">
+            <h2 class="text-3xl font-bold text-center mb-8">🗳️ Votación</h2>
+            <p class="text-center text-xl mb-6">¿Quién crees que es el impostor?</p>
+            
+            <div id="votingPlayers" class="grid grid-cols-2 gap-4 mb-8">
+                <!-- Jugadores para votar -->
+            </div>
+            
+            <div class="text-center">
+                <button onclick="finishVoting()" 
+                        id="finishVoteBtn"
+                        class="px-8 py-4 bg-red-600 hover:bg-red-700 rounded-xl text-xl font-bold disabled:opacity-50">
+                    🔥 Expulsar Jugador
+                </button>
+                <div class="mt-4">
+                    <button onclick="cancelVoting()" 
+                            class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                        ↩️ Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla 5: Resultados -->
+    <div id="resultsScreen" class="screen container mx-auto max-w-2xl">
+        <div class="bg-gray-800 rounded-xl p-8 shadow-2xl text-center">
+            <h2 id="resultTitle" class="text-4xl font-bold mb-6"></h2>
+            <div id="resultMessage" class="text-xl mb-8"></div>
+            
+            <div id="playersResults" class="mb-8">
+                <!-- Resultados por jugador -->
+            </div>
+            
+            <div class="space-y-4">
+                <button onclick="newGame()" 
+                        class="w-full py-4 bg-green-600 hover:bg-green-700 rounded-xl text-xl font-bold">
+                    🎮 Nueva Partida
+                </button>
+                <button onclick="backToSetup()" 
+                        class="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl text-xl font-bold">
+                    ⚙️ Cambiar Configuración
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    
+
+        <!-- Modal para agregar categoría -->
+    <div id="addCategoryModal" class="modal">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md">
+            <h3 class="text-2xl font-bold mb-4">➕ Crear Nueva Categoría</h3>
+            
+            <div class="mb-4">
+                <label class="block mb-2">Nombre de la categoría</label>
+                <input type="text" id="newCategoryName" 
+                    class="w-full p-3 rounded bg-gray-700" 
+                    placeholder="Ej: Videojuegos, Películas, etc.">
+            </div>
+            
+            <div class="mb-6">
+                <label class="block mb-2">Palabras (una por línea, formato: palabra:pista)</label>
+                <textarea id="newCategoryWords" 
+                        class="w-full p-3 rounded bg-gray-700 h-40"
+                        placeholder="Ej:
+    Titanic:Barco que se hunde
+    Avatar:Película de aliens azules
+    Minecraft:Juego de cubos"></textarea>
+                <div class="text-sm text-gray-400 mt-2">
+                    Formato: <code>palabra:pista</code> (una por línea)
+                </div>
+            </div>
+            
+            <div class="flex space-x-4">
+                <button onclick="saveNewCategory()" 
+                        class="flex-1 py-3 bg-green-600 hover:bg-green-700 rounded-lg">
+                    Guardar
+                </button>
+                <button onclick="hideAddCategoryModal()" 
+                        class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para gestionar categorías -->
+    <div id="manageCategoriesModal" class="modal">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+            <h3 class="text-2xl font-bold mb-4">🗂️ Gestionar Categorías</h3>
+            
+            <div id="customCategoriesList" class="mb-6">
+                <!-- Categorías personalizadas aparecerán aquí -->
+            </div>
+            
+            <div class="text-center">
+                <button onclick="hideManageCategories()" 
+                        class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
