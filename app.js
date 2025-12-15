@@ -12,7 +12,9 @@ const gameState = {
     selectedCategories: [],
     currentWord: null,
     alivePlayers: [],
-    votedPlayer: null
+    votedPlayer: null,
+    partyMode: false,
+    activeCategory: null
 };
 
 // Base de datos de palabras
@@ -71,16 +73,45 @@ function initCategories() {
     const container = document.getElementById('categoriesList');
     container.innerHTML = '';
     
-    Object.keys(categoriesDB).forEach(category => {
+    // Primero las categorías predeterminadas (sin prefijo custom_)
+    const defaultCategories = Object.keys(categoriesDB).filter(key => !key.startsWith('custom_'));
+    const customCategories = Object.keys(categoriesDB).filter(key => key.startsWith('custom_'));
+    
+    // Mostrar todas las categorías
+    [...defaultCategories, ...customCategories].forEach(key => {
+        const displayName = key.startsWith('custom_') ? 
+            `⭐ ${key.replace('custom_', '')}` : key;
+        
         const div = document.createElement('div');
         div.className = 'flex items-center p-3 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer';
         div.innerHTML = `
-            <input type="checkbox" id="cat_${category}" class="mr-3 h-5 w-5" 
-                   onchange="toggleCategory('${category}')">
-            <label for="cat_${category}" class="cursor-pointer">${category}</label>
+            <input type="checkbox" id="cat_${key}" class="mr-3 h-5 w-5" 
+                   onchange="toggleCategory('${key}')"
+                   ${gameState.selectedCategories.includes(key) ? 'checked' : ''}>
+            <label for="cat_${key}" class="cursor-pointer flex-grow">${displayName}</label>
+            ${key.startsWith('custom_') ? 
+                '<span class="text-xs bg-blue-700 px-2 py-1 rounded">Personalizada</span>' : ''}
         `;
         container.appendChild(div);
     });
+    
+    updateSelectedCategoriesInfo();
+}
+
+// Actualizar información de categorías seleccionadas
+function updateSelectedCategoriesInfo() {
+    const info = document.getElementById('selectedCategoriesInfo');
+    const count = gameState.selectedCategories.length;
+    
+    if (count === 0) {
+        info.innerHTML = '⚠️ No hay categorías seleccionadas';
+    } else {
+        const names = gameState.selectedCategories.map(key => 
+            key.startsWith('custom_') ? 
+            `⭐ ${key.replace('custom_', '')}` : key
+        );
+        info.innerHTML = `✅ ${count} categoría${count !== 1 ? 's' : ''} seleccionada${count !== 1 ? 's' : ''}: ${names.join(', ')}`;
+    }
 }
 
 function toggleCategory(category) {
@@ -93,6 +124,7 @@ function toggleCategory(category) {
         gameState.selectedCategories = gameState.selectedCategories.filter(c => c !== category);
     }
     updateStartButton();
+    updateSelectedCategoriesInfo();
 }
 
 function addPlayer() {
@@ -139,19 +171,6 @@ function renderPlayersList() {
     });
 }
 
-function pauseTimer() {
-    clearInterval(gameState.timerInterval);
-    gameState.isTimerPaused = true;
-}
-
-// Función para continuar el timer
-function continueTimer() {
-    if (gameState.isTimerPaused && gameState.timeLeft > 0 && gameState.isGameActive) {
-        gameState.isTimerPaused = false;
-        startTimer();
-    }
-}
-
 function updateStartButton() {
     const btn = document.getElementById('startBtn');
     const isValid = gameState.players.length >= 3 && 
@@ -187,6 +206,16 @@ function startRoleAssignment() {
     while (gameState.players[0]?.role === 'IMPOSTOR' && gameState.players.length > impostorCount) {
         // Mezclar de nuevo
         assignImpostors(impostorCount);
+    }
+
+    // Configuración de Modo Fiesta
+    gameState.partyMode = document.getElementById('partyMode')?.checked || false;
+
+    // Seleccionar UNA categoría para toda la partida (para evitar mezclas)
+    if (gameState.selectedCategories.length > 0) {
+        gameState.activeCategory = gameState.selectedCategories[
+            Math.floor(Math.random() * gameState.selectedCategories.length)
+        ];
     }
 
     // Seleccionar palabra para la ronda (UNA VEZ para todos)
@@ -417,66 +446,6 @@ function deleteCategory(key) {
     }
 }
 
-// Modificar initCategories para incluir las personalizadas
-function initCategories() {
-    const container = document.getElementById('categoriesList');
-    container.innerHTML = '';
-    
-    // Primero las categorías predeterminadas (sin prefijo custom_)
-    const defaultCategories = Object.keys(categoriesDB).filter(key => !key.startsWith('custom_'));
-    const customCategories = Object.keys(categoriesDB).filter(key => key.startsWith('custom_'));
-    
-    // Mostrar todas las categorías
-    [...defaultCategories, ...customCategories].forEach(key => {
-        const displayName = key.startsWith('custom_') ? 
-            `⭐ ${key.replace('custom_', '')}` : key;
-        
-        const div = document.createElement('div');
-        div.className = 'flex items-center p-3 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer';
-        div.innerHTML = `
-            <input type="checkbox" id="cat_${key}" class="mr-3 h-5 w-5" 
-                   onchange="toggleCategory('${key}')"
-                   ${gameState.selectedCategories.includes(key) ? 'checked' : ''}>
-            <label for="cat_${key}" class="cursor-pointer flex-grow">${displayName}</label>
-            ${key.startsWith('custom_') ? 
-                '<span class="text-xs bg-blue-700 px-2 py-1 rounded">Personalizada</span>' : ''}
-        `;
-        container.appendChild(div);
-    });
-    
-    updateSelectedCategoriesInfo();
-}
-
-// Actualizar información de categorías seleccionadas
-function updateSelectedCategoriesInfo() {
-    const info = document.getElementById('selectedCategoriesInfo');
-    const count = gameState.selectedCategories.length;
-    
-    if (count === 0) {
-        info.innerHTML = '⚠️ No hay categorías seleccionadas';
-    } else {
-        const names = gameState.selectedCategories.map(key => 
-            key.startsWith('custom_') ? 
-            `⭐ ${key.replace('custom_', '')}` : key
-        );
-        info.innerHTML = `✅ ${count} categoría${count !== 1 ? 's' : ''} seleccionada${count !== 1 ? 's' : ''}: ${names.join(', ')}`;
-    }
-}
-
-// Modificar toggleCategory para actualizar la info
-function toggleCategory(category) {
-    const checkbox = document.getElementById(`cat_${category}`);
-    if (checkbox.checked) {
-        if (!gameState.selectedCategories.includes(category)) {
-            gameState.selectedCategories.push(category);
-        }
-    } else {
-        gameState.selectedCategories = gameState.selectedCategories.filter(c => c !== category);
-    }
-    updateStartButton();
-    updateSelectedCategoriesInfo(); // <-- Agregar esta línea
-}
-
 // ========== JUEGO EN CURSO ==========
 
 function startGame() {
@@ -508,6 +477,19 @@ function startTimer() {
     }, 1000);
 }
 
+function pauseTimer() {
+    clearInterval(gameState.timerInterval);
+    gameState.isTimerPaused = true;
+}
+
+// Función para continuar el timer
+function continueTimer() {
+    if (gameState.isTimerPaused && gameState.timeLeft > 0 && gameState.isGameActive) {
+        gameState.isTimerPaused = false;
+        startTimer();
+    }
+}
+
 function updateTimerDisplay() {
     const minutes = Math.floor(gameState.timeLeft / 60);
     const seconds = gameState.timeLeft % 60;
@@ -516,29 +498,20 @@ function updateTimerDisplay() {
 }
 
 function selectRandomWord() {
-    // Seleccionar categoría aleatoria de las seleccionadas
-    if (gameState.selectedCategories.length === 0) return;
+    // Usar la categoría activa de la sesión
+    if (!gameState.activeCategory) return;
     
-    const randomCategory = gameState.selectedCategories[
-        Math.floor(Math.random() * gameState.selectedCategories.length)
-    ];
-    
-    const words = categoriesDB[randomCategory];
+    const words = categoriesDB[gameState.activeCategory];
     if (words && words.length > 0) {
         gameState.currentWord = words[Math.floor(Math.random() * words.length)];
-        gameState.currentWord.category = randomCategory;
+        gameState.currentWord.category = gameState.activeCategory;
     }
 }
 
 function updateGameScreen() {
-    // Actualizar palabra
-    if (gameState.currentWord) {
-        document.getElementById('currentWord').textContent = gameState.currentWord.word;
-    }
-    
     // Actualizar info de ronda
     document.getElementById('roundInfo').textContent = 
-        `Ronda ${gameState.currentRound} de ${gameState.totalRounds} | ${gameState.selectedCategories.length} categorías`;
+        `Ronda ${gameState.currentRound} de ${gameState.totalRounds} | Categoría: ${gameState.activeCategory}`;
     
     // Actualizar jugadores vivos
     const container = document.getElementById('alivePlayers');
@@ -558,7 +531,7 @@ function updateGameScreen() {
 }
 
 function startVoting() {
-    pauseTimer;
+    pauseTimer();
     showScreen('votingScreen');
     renderVotingPlayers();
 }
@@ -608,6 +581,12 @@ function finishVoting() {
     if (!gameState.votedPlayer) return;
     
     gameState.votedPlayer.isAlive = false;
+    
+    // PARTY MODE: Challenge for eliminated player
+    if (gameState.partyMode) {
+        showPartyChallenge('eliminated', gameState.votedPlayer);
+    }
+    
     gameState.alivePlayers = gameState.alivePlayers.filter(p => p.isAlive);
     
     if (checkWinConditions()) {
@@ -628,7 +607,7 @@ function finishVoting() {
 }
 
 function cancelVoting() {
-    continueTimer;
+    continueTimer();
     showScreen('gameScreen');
 }
 
@@ -711,6 +690,11 @@ function endGameWithResult(winner, message) {
         container.appendChild(div);
     });
     
+    // PARTY MODE: Challenge for winner/loser
+    if (gameState.partyMode) {
+        showPartyChallenge('endgame', winner);
+    }
+    
     showScreen('resultsScreen');
 }
 
@@ -786,3 +770,58 @@ window.addEventListener('beforeinstallprompt', (e) => {
     }
 });
 */
+
+// ========== MODO FIESTA ==========
+
+const partyChallenges = {
+    eliminated: [
+        "¡{name} debe beber un shot!",
+        "¡{name} debe contar un secreto o beber!",
+        "¡{name} reparte 2 tragos entre los jugadores!",
+        "¡{name} debe bailar sin música por 30 segundos o beber!",
+        "¡{name} debe hacer 10 sentadillas o beber!"
+    ],
+    impostorWin: [
+        "¡Los Impostores ganan! Todos los inocentes beben fondo blanco.",
+        "¡Victoria Impostora! Los inocentes beben 2 tragos cada uno.",
+        "¡Impostores dominan! Inocentes: shot de castigo."
+    ],
+    innocentWin: [
+        "¡Inocentes ganan! Los impostores se terminan su bebida.",
+        "¡Justicia! Los impostores beben 2 tragos.",
+        "¡Victoria Inocente! Impostores: shot de castigo."
+    ]
+};
+
+function showPartyChallenge(type, data) {
+    let challenge = "";
+    let title = "🍺 RETO DE FIESTA";
+    
+    if (type === 'eliminated') {
+        const challenges = partyChallenges.eliminated;
+        const template = challenges[Math.floor(Math.random() * challenges.length)];
+        challenge = template.replace(/{name}/g, data.name);
+        title = "🍺 JUGADOR ELIMINADO";
+        
+    } else if (type === 'endgame') {
+        const winner = data; // 'IMPOSTORES' or 'INOCENTES'
+        const challenges = winner === 'IMPOSTORES' ? partyChallenges.impostorWin : partyChallenges.innocentWin;
+        challenge = challenges[Math.floor(Math.random() * challenges.length)];
+        title = "🎉 FIN DE PARTIDA";
+    }
+    
+    // Mostrar Modal
+    document.getElementById('partyChallengeTitle').textContent = title;
+    document.getElementById('partyChallengeText').textContent = challenge;
+    
+    // Pequeño delay para dar dramatismo
+    setTimeout(() => {
+        document.getElementById('partyChallengeModal').classList.add('active');
+        // Efecto de sonido o vibración podría ir aquí
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    }, 800);
+}
+
+function closePartyChallengeModal() {
+    document.getElementById('partyChallengeModal').classList.remove('active');
+}

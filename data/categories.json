@@ -2,32 +2,153 @@
   "Películas": [
     { "word": "TITANIC", "clue": "Navegación" },
     { "word": "AVATAR", "clue": "Planeta" },
-    { "word": "MATRIX", "clue": "Virtual" }
+    { "word": "MATRIX", "clue": "Virtual" },
+    { "word": "INTERESTELAR", "clue": "Espacio" },
+    { "word": "JURASSIC PARK", "clue": "Prehistoria" },
+    { "word": "INCEPTION", "clue": "Sueños" },
+    { "word": "GLADIATOR", "clue": "Arena" },
+    { "word": "PARASITE", "clue": "Clases" }
   ],
   "Series": [
     { "word": "STRANGER THINGS", "clue": "Misterio" },
     { "word": "BREAKING BAD", "clue": "Química" },
-    { "word": "GAME OF THRONES", "clue": "Poder" }
+    { "word": "GAME OF THRONES", "clue": "Poder" },
+    { "word": "THE MANDALORIAN", "clue": "Mascota" },
+    { "word": "THE OFFICE", "clue": "Oficina" },
+    { "word": "BLACK MIRROR", "clue": "Tecnología" },
+    { "word": "FRIENDS", "clue": "Cafetería" },
+    { "word": "THE CROWN", "clue": "Monarquía" }
   ],
   "Videojuegos": [
     { "word": "MINECRAFT", "clue": "Bloques" },
     { "word": "FORTNITE", "clue": "Batalla" },
-    { "word": "MARIO BROS", "clue": "Saltos" }
+    { "word": "MARIO BROS", "clue": "Saltos" },
+    { "word": "THE LEGEND OF ZELDA", "clue": "Trifuerza" },
+    { "word": "GRAND THEFT AUTO", "clue": "Ciudad" },
+    { "word": "AMONG US", "clue": "Tripulación" },
+    { "word": "POKÉMON", "clue": "Colección" },
+    { "word": "CALL OF DUTY", "clue": "Militar" }
   ],
   "Animales": [
     { "word": "ELEFANTE", "clue": "Grande" },
     { "word": "JIRAFA", "clue": "Altura" },
-    { "word": "PINGÜINO", "clue": "Hielo" }
+    { "word": "PINGÜINO", "clue": "Hielo" },
+    { "word": "LEÓN", "clue": "Melena" },
+    { "word": "DELFÍN", "clue": "Inteligencia" },
+    { "word": "CAMALEÓN", "clue": "Color" },
+    { "word": "HORMIGA", "clue": "Colonia" },
+    { "word": "COLIBRÍ", "clue": "Vuelo" }
   ],
   "Comida": [
     { "word": "PIZZA", "clue": "Redonda" },
     { "word": "SUSHI", "clue": "Crudo" },
-    { "word": "CHOCOLATE", "clue": "Cacao" }
+    { "word": "CHOCOLATE", "clue": "Cacao" },
+    { "word": "TACO", "clue": "Tortilla" },
+    { "word": "PASTA", "clue": "Italia" },
+    { "word": "HAMBURGUESA", "clue": "Doble" },
+    { "word": "HELADO", "clue": "Frío" },
+    { "word": "ENSALADA", "clue": "Verde" }
   ],
   "Deportes": [
     { "word": "FÚTBOL", "clue": "Balón" },
     { "word": "BALONCESTO", "clue": "Canasta" },
-    { "word": "TENIS", "clue": "Raqueta" }
+    { "word": "TENIS", "clue": "Raqueta" },
+    { "word": "NATACIÓN", "clue": "Piscina" },
+    { "word": "ATLETISMO", "clue": "Pista" },
+    { "word": "CICLISMO", "clue": "Bicicleta" },
+    { "word": "BOXEO", "clue": "Guantes" },
+    { "word": "SURF", "clue": "Ola" }
+  ],
+  "Fútbol": [
+    { "word": "ALEXIS SANCHEZ", "clue": "Maravilla" },
+    { "word": "IBRAHIMOVIC", "clue": "León" },
+    { "word": "SALAH", "clue": "Puskas" },
+    { "word": "KANE", "clue": "Goleador" },
+    { "word": "MBAPPE", "clue": "Velocidad" },
+    { "word": "NEYMAR", "clue": "Dribbling" },
+    { "word": "PELE", "clue": "Rey" },
+    { "word": "DI MARIA", "clue": "Nariz" }
+  ],
+  "Chilean Premier": [
+    { "word": "TORO ZAMPEDRI", "clue": "Animal" },
+    { "word": "FELIPE FLORES", "clue": "Orejon" },
+    { "word": "CHUPETE SUAZO", "clue": "Leyenda" },
+    { "word": "CECILIO WATERMAN", "clue": "Agua" },
+    { "word": "MOISES GONZALEZ", "clue": "Celeste" },
+    { "word": "MARCELO DIAZ", "clue": "Sapo" },
+    { "word": "LUCAS CEPEDA", "clue": "Talento" },
+    { "word": "LUCAS ASSADI", "clue": "Promesa" }
+  ],
+  "Clubes": [
+    { "word": "COLCHAGUA", "clue": "Regional" },
+    { "word": "COQUIMBO", "clue": "Puerto" },
+    { "word": "U. CATOLICA", "clue": "Cruzado" },
+    { "word": "MAN. UNITED", "clue": "Diablos" },
+    { "word": "PSG", "clue": "París" },
+    { "word": "AJAX", "clue": "Holanda" },
+    { "word": "MILAN", "clue": "Italia" },
+    { "word": "BAYERN", "clue": "Alemania" },
+    { "word": "RANGERS DE TALCA", "clue": "Histórico" }
+  ],
+  "Países": [
+    { "word": "JAPÓN", "clue": "Cerezo" },
+    { "word": "BRASIL", "clue": "Carnaval" },
+    { "word": "EGIPTO", "clue": "Pirámides" },
+    { "word": "ITALIA", "clue": "Coliseo" },
+    { "word": "CANADÁ", "clue": "Arce" },
+    { "word": "AUSTRALIA", "clue": "Canguro" },
+    { "word": "INDIA", "clue": "Taj Mahal" },
+    { "word": "MÉXICO", "clue": "Sombrero" }
+  ],
+  "Profesiones": [
+    { "word": "DOCTOR", "clue": "Estetoscopio" },
+    { "word": "MAESTRO", "clue": "Pizarrón" },
+    { "word": "BOMBERO", "clue": "Manguera" },
+    { "word": "COCINERO", "clue": "Sarten" },
+    { "word": "ARTISTA", "clue": "Paleta" },
+    { "word": "INGENIERO", "clue": "Plano" },
+    { "word": "MÚSICO", "clue": "Instrumento" },
+    { "word": "PROGRAMADOR", "clue": "Código" }
+  ],
+  "Instrumentos Musicales": [
+    { "word": "GUITARRA", "clue": "Cuerdas" },
+    { "word": "PIANO", "clue": "Teclas" },
+    { "word": "BATERÍA", "clue": "Percusión" },
+    { "word": "VIOLÍN", "clue": "Arco" },
+    { "word": "SAXOFÓN", "clue": "Metal" },
+    { "word": "FLAUTA", "clue": "Viento" },
+    { "word": "TROMPETA", "clue": "Boquilla" },
+    { "word": "HARPA", "clue": "Ángel" }
+  ],
+  "Objetos del Hogar": [
+    { "word": "REFRIGERADOR", "clue": "Frío" },
+    { "word": "TELEVISIÓN", "clue": "Pantalla" },
+    { "word": "CAMA", "clue": "Descanso" },
+    { "word": "SILLA", "clue": "Asiento" },
+    { "word": "LÁMPARA", "clue": "Luz" },
+    { "word": "ESCOBA", "clue": "Limpieza" },
+    { "word": "RELOJ", "clue": "Tiempo" },
+    { "word": "ESPEJO", "clue": "Reflejo" }
+  ],
+  "Transportes": [
+    { "word": "AUTOMÓVIL", "clue": "Ruedas" },
+    { "word": "AVIÓN", "clue": "Cielo" },
+    { "word": "BARCO", "clue": "Agua" },
+    { "word": "BICICLETA", "clue": "Pedales" },
+    { "word": "TREN", "clue": "Rieles" },
+    { "word": "MOTOCICLETA", "clue": "Casco" },
+    { "word": "HELICÓPTERO", "clue": "Hélices" },
+    { "word": "SUBTERRÁNEO", "clue": "Túnel" }
+  ],
+  "Naturaleza": [
+    { "word": "VOLCÁN", "clue": "Erupción" },
+    { "word": "RÍO", "clue": "Corriente" },
+    { "word": "MONTAÑA", "clue": "Altura" },
+    { "word": "OCÉANO", "clue": "Profundidad" },
+    { "word": "BOSQUE", "clue": "Árboles" },
+    { "word": "DESIERTO", "clue": "Arena" },
+    { "word": "CASCADA", "clue": "Caída" },
+    { "word": "GLACIAR", "clue": "Hielo" }
   ],
   "custom_Ejemplo": [
     { "word": "EJEMPLO", "clue": "Pista" }

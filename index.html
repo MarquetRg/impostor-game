@@ -62,6 +62,14 @@
                         <option value="7">7 Rondas</option>
                     </select>
                 </div>
+                
+                <div>
+                    <label class="block mb-2">🍻 Modo Fiesta</label>
+                    <div class="flex items-center p-3 bg-gray-700 rounded h-full">
+                        <input type="checkbox" id="partyMode" class="h-6 w-6 mr-3 text-purple-600 rounded focus:ring-purple-500">
+                        <label for="partyMode" class="cursor-pointer font-bold text-purple-400">Activar Retos</label>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -135,8 +143,6 @@
             </div>
             
             <div class="text-center mb-8">
-                <!-- <div class="text-xl mb-2">Palabra actual:</div>
-                <div id="currentWord" class="text-4xl font-bold text-green-400 mb-4"></div> -->
                 <div id="roundInfo" class="text-gray-400"></div>
             </div>
             
@@ -269,6 +275,24 @@
                     Cerrar
                 </button>
             </div>
+        </div>
+    </div>
+    <!-- Modal para Retos de Fiesta -->
+    <div id="partyChallengeModal" class="modal">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md text-center border-4 border-purple-600">
+            <div class="text-6xl mb-4">🍻</div>
+            <h3 id="partyChallengeTitle" class="text-2xl font-bold mb-4 text-purple-400">RETO DE FIESTA</h3>
+            
+            <div class="bg-gray-700 p-6 rounded-lg mb-6 shadow-inner">
+                <p id="partyChallengeText" class="text-xl font-bold text-white leading-relaxed">
+                    <!-- Texto del reto -->
+                </p>
+            </div>
+            
+            <button onclick="closePartyChallengeModal()" 
+                    class="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg text-lg font-bold w-full shadow-lg transform transition hover:scale-105">
+                ¡ACEPTAR RETO!
+            </button>
         </div>
     </div>
     <script src="app.js"></script>
