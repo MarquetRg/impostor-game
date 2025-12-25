@@ -299,6 +299,8 @@ function revealRole() {
         nextBtn.innerHTML = `<i class="fas fa-arrow-right"></i> Siguiente Jugador`;
         nextBtn.onclick = nextPlayer;
     }
+    
+    showRandomIndicator();
 }
 
 function nextPlayer() {
@@ -871,4 +873,16 @@ function startGameWithStarter() {
 function closeStarterModal() {
     document.getElementById('starterModal').classList.remove('active');
     startGame();
+}
+
+function showRandomIndicator() {
+    const container = document.getElementById('roleContent');
+    const indicator = document.createElement('div');
+    indicator.className = 'random-indicator';
+    indicator.innerHTML = '🎲 Sorteo realizado';
+    container.appendChild(indicator);
+    setTimeout(() => {
+        indicator.classList.add('fade-out');
+        setTimeout(() => indicator.remove(), 400);
+    }, 900);
 }

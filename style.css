@@ -92,3 +92,29 @@
 .modal.active {
     display: flex;
 }
+
+.random-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 60;
+    background: linear-gradient(135deg, #10b981, #3b82f6);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    pointer-events: none;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.random-indicator.fade-out {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
