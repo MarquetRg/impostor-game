@@ -193,34 +193,31 @@ function startRoleAssignment() {
     gameState.totalRounds = parseInt(document.getElementById('roundsCount').value);
     gameState.currentRound = 1;
     
-    // Resetear jugadores
     gameState.players.forEach(p => {
-        p.role = null;
+        p.role = 'INOCENTE'; // Por defecto todos inocentes
         p.isAlive = true;
         p.votes = 0;
     });
     
-    // Mezclar orden de jugadores para revelar roles en orden aleatorio
-    shuffleArray(gameState.players);
-    
-    // Asignar impostores
+    // 3. Asignar impostores ANTES del shuffle 
+    // (Esto garantiza que CUALQUIERA de la lista original pueda ser elegido)
     const impostorCount = parseInt(document.getElementById('impostorCount').value);
     assignImpostors(impostorCount);
+
+    shuffleArray(gameState.players);
 
     // Configuración de Modo Fiesta
     gameState.partyMode = document.getElementById('partyMode')?.checked || false;
 
-    // Seleccionar UNA categoría para toda la partida (para evitar mezclas)
     if (gameState.selectedCategories.length > 0) {
         gameState.activeCategory = gameState.selectedCategories[
             Math.floor(Math.random() * gameState.selectedCategories.length)
         ];
     }
 
-    // Seleccionar palabra para la ronda (UNA VEZ para todos)
     selectRandomWord();
     
-    // Iniciar asignación
+    // 6. Iniciar la pantalla de revelación
     gameState.currentPlayerIndex = 0;
     showScreen('roleScreen');
     showNextPlayer();
@@ -228,17 +225,20 @@ function startRoleAssignment() {
 
 function assignImpostors(count) {
     // Resetear roles
-    gameState.players.forEach(p => p.role = 'INOCENTE');
     gameState.impostors = [];
+    // Hacemos una copia para no alterar el array original mientras elegimos
+    const pool = [...gameState.players]; 
     
-    // Seleccionar impostores aleatorios
-    const playersCopy = [...gameState.players];
-    for (let i = 0; i < count && i < playersCopy.length; i++) {
-        const randomIndex = Math.floor(Math.random() * playersCopy.length);
-        const impostor = playersCopy[randomIndex];
-        impostor.role = 'IMPOSTOR';
-        gameState.impostors.push(impostor);
-        playersCopy.splice(randomIndex, 1);
+    for (let i = 0; i < count && pool.length > 0; i++) {
+        const randomIndex = Math.floor(Math.random() * pool.length);
+        const selectedPlayer = pool[randomIndex];
+        
+        // Marcamos al jugador original como impostor
+        const playerInState = gameState.players.find(p => p.id === selectedPlayer.id);
+        playerInState.role = 'IMPOSTOR';
+        
+        gameState.impostors.push(playerInState);
+        pool.splice(randomIndex, 1);
     }
 }
 
