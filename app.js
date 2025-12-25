@@ -14,7 +14,8 @@ const gameState = {
     alivePlayers: [],
     votedPlayer: null,
     partyMode: false,
-    activeCategory: null
+    activeCategory: null,
+    startingPlayerName: null
 };
 
 // Base de datos de palabras
@@ -199,15 +200,12 @@ function startRoleAssignment() {
         p.votes = 0;
     });
     
+    // Mezclar orden de jugadores para revelar roles en orden aleatorio
+    shuffleArray(gameState.players);
+    
     // Asignar impostores
     const impostorCount = parseInt(document.getElementById('impostorCount').value);
     assignImpostors(impostorCount);
-    
-    // Asegurar que el primer jugador NO sea impostor
-    while (gameState.players[0]?.role === 'IMPOSTOR' && gameState.players.length > impostorCount) {
-        // Mezclar de nuevo
-        assignImpostors(impostorCount);
-    }
 
     // Configuración de Modo Fiesta
     gameState.partyMode = document.getElementById('partyMode')?.checked || false;
@@ -241,6 +239,13 @@ function assignImpostors(count) {
         impostor.role = 'IMPOSTOR';
         gameState.impostors.push(impostor);
         playersCopy.splice(randomIndex, 1);
+    }
+}
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 }
 
@@ -284,6 +289,16 @@ function revealRole() {
     
     // Animación flip - CORREGIDA
     document.getElementById('roleContent').classList.add('flipped');
+    
+    // Configurar botón para último jugador
+    const nextBtn = document.getElementById('nextRoleBtn');
+    if (gameState.currentPlayerIndex === gameState.players.length - 1) {
+        nextBtn.innerHTML = `<i class="fas fa-play"></i> Empezar Partida`;
+        nextBtn.onclick = startGameWithStarter;
+    } else {
+        nextBtn.innerHTML = `<i class="fas fa-arrow-right"></i> Siguiente Jugador`;
+        nextBtn.onclick = nextPlayer;
+    }
 }
 
 function nextPlayer() {
@@ -511,8 +526,9 @@ function selectRandomWord() {
 
 function updateGameScreen() {
     // Actualizar info de ronda
+    const starterInfo = gameState.startingPlayerName ? ` | Empieza: ${gameState.startingPlayerName}` : '';
     document.getElementById('roundInfo').textContent = 
-        `Ronda ${gameState.currentRound} de ${gameState.totalRounds} | Categoría: ${gameState.activeCategory}`;
+        `Ronda ${gameState.currentRound} de ${gameState.totalRounds} | Categoría: ${gameState.activeCategory}${starterInfo}`;
     
     // Actualizar jugadores vivos
     const container = document.getElementById('alivePlayers');
@@ -720,6 +736,7 @@ function newGame() {
     gameState.votedPlayer = null;
     gameState.currentWord = null; // Resetear palabra
     gameState.activeCategory = null; // Resetear categoría activa
+    gameState.startingPlayerName = null; // Resetear jugador inicial
     
     showScreen('setupScreen');
     updateStartButton();
@@ -827,4 +844,31 @@ function showPartyChallenge(type, data) {
 
 function closePartyChallengeModal() {
     document.getElementById('partyChallengeModal').classList.remove('active');
+}
+
+// ========== INICIO ALEATORIO DE LA RONDA ==========
+function pickRandomStarter() {
+    const alive = gameState.players.filter(p => p.isAlive);
+    if (alive.length === 0) return null;
+    return alive[Math.floor(Math.random() * alive.length)];
+}
+
+function startGameWithStarter() {
+    const starter = pickRandomStarter();
+    if (starter) {
+        gameState.startingPlayerName = starter.name;
+        document.getElementById('starterName').textContent = starter.name;
+    } else {
+        gameState.startingPlayerName = null;
+        document.getElementById('starterName').textContent = '';
+    }
+    setTimeout(() => {
+        document.getElementById('starterModal').classList.add('active');
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    }, 300);
+}
+
+function closeStarterModal() {
+    document.getElementById('starterModal').classList.remove('active');
+    startGame();
 }

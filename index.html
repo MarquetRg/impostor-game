@@ -124,7 +124,7 @@
                     <div id="roleInfo" class="w-full">
                         <!-- Aquí va el rol y palabra -->
                     </div>
-                    <button onclick="nextPlayer()" 
+                    <button id="nextRoleBtn" onclick="nextPlayer()" 
                             class="mt-8 px-8 py-4 bg-green-600 hover:bg-green-700 rounded-xl text-xl font-bold">
                         <i class="fas fa-arrow-right"></i> Siguiente Jugador
                     </button>
@@ -278,24 +278,42 @@
             </div>
         </div>
     </div>
-    <!-- Modal para Retos de Fiesta -->
-    <div id="partyChallengeModal" class="modal">
-        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md text-center border-4 border-purple-600">
-            <div class="text-6xl mb-4">🍻</div>
-            <h3 id="partyChallengeTitle" class="text-2xl font-bold mb-4 text-purple-400">RETO DE FIESTA</h3>
-            
-            <div class="bg-gray-700 p-6 rounded-lg mb-6 shadow-inner">
-                <p id="partyChallengeText" class="text-xl font-bold text-white leading-relaxed">
-                    <!-- Texto del reto -->
-                </p>
-            </div>
-            
-            <button onclick="closePartyChallengeModal()" 
-                    class="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg text-lg font-bold w-full shadow-lg transform transition hover:scale-105">
-                ¡ACEPTAR RETO!
-            </button>
-        </div>
-    </div>
-    <script src="app.js"></script>
-</body>
+     <!-- Modal para Retos de Fiesta -->
+     <div id="partyChallengeModal" class="modal">
+         <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md text-center border-4 border-purple-600">
+             <div class="text-6xl mb-4">🍻</div>
+             <h3 id="partyChallengeTitle" class="text-2xl font-bold mb-4 text-purple-400">RETO DE FIESTA</h3>
+             
+             <div class="bg-gray-700 p-6 rounded-lg mb-6 shadow-inner">
+                 <p id="partyChallengeText" class="text-xl font-bold text-white leading-relaxed">
+                     <!-- Texto del reto -->
+                 </p>
+             </div>
+             
+             <button onclick="closePartyChallengeModal()" 
+                     class="px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg text-lg font-bold w-full shadow-lg transform transition hover:scale-105">
+                 ¡ACEPTAR RETO!
+             </button>
+         </div>
+     </div>
+     <!-- Modal para mostrar quién empieza -->
+     <div id="starterModal" class="modal">
+         <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md text-center border-4 border-green-600">
+             <div class="text-6xl mb-4">🎲</div>
+             <h3 class="text-2xl font-bold mb-4 text-green-400">Empieza la ronda</h3>
+             
+             <div class="bg-gray-700 p-6 rounded-lg mb-6 shadow-inner">
+                 <p class="text-xl font-bold text-white leading-relaxed">
+                     Empieza: <span id="starterName" class="text-yellow-300"></span>
+                 </p>
+             </div>
+             
+             <button onclick="closeStarterModal()" 
+                     class="px-8 py-3 bg-green-600 hover:bg-green-700 rounded-lg text-lg font-bold w-full shadow-lg transform transition hover:scale-105">
+                 ¡A jugar!
+             </button>
+         </div>
+     </div>
+     <script src="app.js"></script>
+ </body>
 </html>
